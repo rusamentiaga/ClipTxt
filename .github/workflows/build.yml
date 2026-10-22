@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [x64, Win32]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/setup-msbuild@v2
+
+      # The project targets toolset v145 (VS 2026); fall back to v143 when the
+      # runner image only has VS 2022.
+      - name: Build
+        shell: pwsh
+        run: |
+          $vs = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationVersion
+          $toolset = if ([version]$vs -ge [version]'18.0') { 'v145' } else { 'v143' }
+          msbuild ClipTxt.sln /m /p:Configuration=Release /p:Platform=${{ matrix.platform }} /p:PlatformToolset=$toolset
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ClipTxt-${{ matrix.platform }}
+          path: |
+            x64/Release/ClipTxt.exe
+            Release/ClipTxt.exe
+          if-no-files-found: error
