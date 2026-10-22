@@ -314,6 +314,7 @@ public:
 		m_AvailableStrategies[ID_MENU_SPACETAB] = new ChangeSpaceTab;
 		m_AvailableStrategies[ID_MENU_DOTPERCOMMA] = new CommaPerDotTrim;
 		m_AvailableStrategies[ID_MENU_COMMAPERDOT] = new DotPerComma;
+		m_AvailableStrategies[ID_MENU_REMOVEDOTSCOMMAPERDOT] = new RemoveDotsCommaPerDot;
 
 		std::map<int, ClipboardModifyStrategyPtr>::iterator iter;
 		for (iter = m_AvailableStrategies.begin(); iter != m_AvailableStrategies.end(); iter++)

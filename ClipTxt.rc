@@ -171,6 +171,7 @@ BEGIN
         MENUITEM "Spaces for tabs",             ID_MENU_SPACETAB
         MENUITEM "Dot per comma: 12.5",         ID_MENU_DOTPERCOMMA
         MENUITEM "Comma per dot: 12,5",         ID_MENU_COMMAPERDOT
+        MENUITEM "Remove dots, comma per dot: 7.584,93 -> 7584.93", ID_MENU_REMOVEDOTSCOMMAPERDOT
         MENUITEM SEPARATOR
         MENUITEM "Disable",                     ID_MENU_DISABLE
         MENUITEM "Verbose",                     ID_MENU_VERBOSE
