@@ -1,6 +1,7 @@
 #pragma once
 #include "PaperTittleCamelCase.h"
 #include "ParagraphCase.h"
+#include "ChangeCase.h"
 #include <assert.h>
 
 
@@ -68,11 +69,79 @@ public:
 		assert(ParCase.ModifyString(L"Hola. ADIOS\n\nítaca") == L"Hola. Adios\n\nÍtaca");
 	}
 
+	void RunEmptyString()
+	{
+		assert(PaperTittleCamelCase().ModifyString(L"") == L"");
+		assert(ParagraphCase().ModifyString(L"") == L"");
+		assert(UpperCase().ModifyString(L"") == L"");
+		assert(LowerCase().ModifyString(L"") == L"");
+	}
+
+	void RunDontModify()
+	{
+		DontModify NoChange;
+
+		// Default strategy: text is only re-copied as plain text, unchanged
+		assert(NoChange.ModifyString(L"Hola") == L"Hola");
+		assert(NoChange.ModifyString(L"  Hola\tque\r\ntal  ") == L"  Hola\tque\r\ntal  ");
+		assert(NoChange.ModifyString(L"") == L"");
+	}
+
+	void RunChangeSpaceTab()
+	{
+		ChangeSpaceTab SpaceTab;
+
+		assert(SpaceTab.ModifyString(L"a b c") == L"a\tb\tc");
+		assert(SpaceTab.ModifyString(L"1  2") == L"1\t\t2");
+		assert(SpaceTab.ModifyString(L"abc") == L"abc");
+		assert(SpaceTab.ModifyString(L" a b ") == L"a\tb");
+	}
+
+	void RunCommaPerDotTrim()
+	{
+		CommaPerDotTrim CommaToDot;
+
+		assert(CommaToDot.ModifyString(L"12,5") == L"12.5");
+		assert(CommaToDot.ModifyString(L"12.5") == L"12.5");
+		assert(CommaToDot.ModifyString(L"  12,5\r\n") == L"12.5");
+		assert(CommaToDot.ModifyString(L"1,5\t2,25") == L"1.5\t2.25");
+		assert(CommaToDot.ModifyString(L" ") == L"");
+	}
+
+	void RunDotPerComma()
+	{
+		DotPerComma DotToComma;
+
+		assert(DotToComma.ModifyString(L"12.5") == L"12,5");
+		assert(DotToComma.ModifyString(L"12,5") == L"12,5");
+		assert(DotToComma.ModifyString(L"  12.5\r\n") == L"12,5");
+		assert(DotToComma.ModifyString(L"1.5\t2.25") == L"1,5\t2,25");
+	}
+
+	void RunRemoveDotsCommaPerDot()
+	{
+		RemoveDotsCommaPerDot Thousands;
+
+		assert(Thousands.ModifyString(L"7.584,93") == L"7584.93");
+		assert(Thousands.ModifyString(L"1.234.567,8") == L"1234567.8");
+		assert(Thousands.ModifyString(L"12,5") == L"12.5");
+		assert(Thousands.ModifyString(L" 7.584,93\r\n") == L"7584.93");
+		// Without a comma the text is left untouched
+		assert(Thousands.ModifyString(L"7.584") == L"7.584");
+		assert(Thousands.ModifyString(L"Hola") == L"Hola");
+	}
+
 	void Run()
 	{
 		RunPaperTittleCamelCase();
 		RunUpperCase();
 		RunLowerCase();
 		RunParagraphCase();
+		RunEmptyString();
+		RunDontModify();
+		RunChangeSpaceTab();
+		RunCommaPerDotTrim();
+		RunDotPerComma();
+		RunRemoveDotsCommaPerDot();
 	}
 };
