@@ -27,6 +27,11 @@ jobs:
           $toolset = if ([version]$vs -ge [version]'18.0') { 'v145' } else { 'v143' }
           msbuild ClipTxt.sln /m /p:Configuration=Release /p:Platform=${{ matrix.platform }} /p:PlatformToolset=$toolset
 
+      # The solution only builds the tests; run them here so a failing check fails the job.
+      - name: Test
+        shell: pwsh
+        run: ./${{ matrix.platform }}/Release/ClipTxtTests.exe
+
       # Win32 builds to Release/, x64 to x64/Release/; give each a platform-specific name.
       - name: Stage
         shell: pwsh

@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "ClipTxt.h"
 #include "MainWindow.h"
-#include "UnitTest.h"
 
 #include "tstring.h"
 
@@ -20,11 +19,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	// Construct locale object with the system's setting
 	std::locale loc("");
 	std::locale::global(loc); 
-
-#ifdef _DEBUG
-	UnitTest Test;
-	Test.Run();
-#endif
 
 	try
 	{

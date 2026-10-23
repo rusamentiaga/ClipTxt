@@ -1,6 +1,7 @@
 # ClipTxt
 
 [![Build](https://github.com/rusamentiaga/ClipTxt/actions/workflows/build.yml/badge.svg)](https://github.com/rusamentiaga/ClipTxt/actions/workflows/build.yml)
+[![Tests](https://github.com/rusamentiaga/ClipTxt/actions/workflows/tests.yml/badge.svg)](https://github.com/rusamentiaga/ClipTxt/actions/workflows/tests.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 ClipTxt is a small Windows tray app that turns everything you copy into plain
@@ -71,8 +72,35 @@ msbuild ClipTxt.sln /p:Configuration=Release /p:Platform=x64
 
 To build with Visual Studio 2022, add `/p:PlatformToolset=v143`.
 
-Debug builds open a console with trace output and run the unit tests in
-`UnitTest.h` on startup.
+Debug builds open a console with trace output.
+
+## Tests
+
+The unit tests are in [UnitTest.h](UnitTest.h) and use no test framework.
+The solution has a second project, `ClipTxtTests` in [Tests/](Tests/). It is a
+small console program that runs the tests without starting the tray app.
+
+Building the solution compiles the tests but doesn't run them. To build and
+run them from any command prompt:
+
+```
+RunTests                  :: Debug x64
+RunTests Release Win32
+```
+
+[RunTests.bat](RunTests.bat) finds MSBuild by itself, so it doesn't need a
+Developer Command Prompt. It ends with `TESTS PASSED` or `TESTS FAILED`, and
+its exit code is 0 or 1. If a check fails, the output shows where:
+
+```
+C:\...\UnitTest.h(119): FAILED: TabSpace.ModifyString(L"a\tb\tc") == L"a   b   c"
+54/55 checks passed
+```
+
+After a build you can also run `x64\Debug\ClipTxtTests.exe` directly.
+
+To add a test, write a `Run...` method in `UnitTest.h` that uses
+`CHECK(expression)`, and call it from `Run()`.
 
 ## Adding a transformation
 
@@ -91,10 +119,12 @@ Each transformation is a class that derives from `ClipboardModifyStrategy`
    m_AvailableStrategies[ID_MENU_MYTRANSFORM] = new MyTransform;
    ```
 
+4. Add tests for it in [UnitTest.h](UnitTest.h).
+
 ## Contributing
 
-Issues and pull requests are welcome. Please make sure the Debug build runs
-the unit tests without assertion failures before you submit a change.
+Issues and pull requests are welcome. Before you submit a change, make sure
+the solution builds; a successful build means the unit tests pass.
 
 ## License
 

@@ -1,0 +1,20 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [x64, Win32]
+    steps:
+      - uses: actions/checkout@v4
+
+      # Builds only the test project and runs it; exits with 1 if a check fails.
+      - name: Test
+        shell: cmd
+        run: RunTests.bat Release ${{ matrix.platform }}
