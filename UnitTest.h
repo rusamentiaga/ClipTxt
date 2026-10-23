@@ -2,6 +2,8 @@
 #include "PaperTittleCamelCase.h"
 #include "ParagraphCase.h"
 #include "ChangeCase.h"
+#include "SpaceTab.h"
+#include "DecimalSeparator.h"
 #include <assert.h>
 
 
@@ -97,6 +99,18 @@ public:
 		assert(SpaceTab.ModifyString(L" a b ") == L"a\tb");
 	}
 
+	void RunChangeTabSpace()
+	{
+		ChangeTabSpace TabSpace;
+
+		assert(TabSpace.ModifyString(L"a	b	c") == L"a   b   c");
+		assert(TabSpace.ModifyString(L"1		2") == L"1      2");
+		assert(TabSpace.ModifyString(L"abc") == L"abc");
+		assert(TabSpace.ModifyString(L"a b") == L"a b");
+		assert(TabSpace.ModifyString(L"	a	b	") == L"a   b");
+		assert(TabSpace.ModifyString(L"") == L"");
+	}
+
 	void RunCommaPerDotTrim()
 	{
 		CommaPerDotTrim CommaToDot;
@@ -140,6 +154,7 @@ public:
 		RunEmptyString();
 		RunDontModify();
 		RunChangeSpaceTab();
+		RunChangeTabSpace();
 		RunCommaPerDotTrim();
 		RunDotPerComma();
 		RunRemoveDotsCommaPerDot();

@@ -25,12 +25,16 @@ All transformations are optional and also output plain text.
 | Upper Case                 | `This is an example`     | `THIS IS AN EXAMPLE`     |
 | Lower Case                 | `This Is An Example`     | `this is an example`     |
 | Spaces for tabs            | `a b c`                  | `a⇥b⇥c`                  |
+| Tabs for spaces            | `a⇥b⇥c`                  | `a   b   c`              |
 | Dot per comma              | `12,5`                   | `12.5`                   |
 | Comma per dot              | `12.5`                   | `12,5`                   |
 | Remove dots, comma per dot | `7.584,93`               | `7584.93`                |
 
 Title Camel Case is meant for paper titles. It leaves articles, prepositions
 and conjunctions in lower case, in both English and Spanish.
+
+Tabs for spaces replaces each tab with 3 spaces. Both tab conversions also
+trim leading and trailing whitespace.
 
 The number conversions also trim leading and trailing whitespace, which helps
 when moving values between spreadsheets that use different decimal separators.
@@ -76,7 +80,9 @@ Each transformation is a class that derives from `ClipboardModifyStrategy`
 (see [ClipboardModifyStrategy.h](ClipboardModifyStrategy.h)) and implements
 `ModifyString`. To add one:
 
-1. Write the class, for example in [ChangeCase.h](ChangeCase.h).
+1. Write the class in a header next to related ones, for example
+   [ChangeCase.h](ChangeCase.h) (case), [SpaceTab.h](SpaceTab.h) (spaces and
+   tabs) or [DecimalSeparator.h](DecimalSeparator.h) (decimal separators).
 2. Add a menu command ID in [resource.h](resource.h) and a menu entry under
    `IDR_TRAYICON_MENU` in [ClipTxt.rc](ClipTxt.rc).
 3. Register it in the `MainWindow` constructor in [MainWindow.h](MainWindow.h):

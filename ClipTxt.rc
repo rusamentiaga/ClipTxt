@@ -169,6 +169,7 @@ BEGIN
         MENUITEM "Upper Case: THIS IS AN EXAMPLE", ID_MENU_UPPERCASE
         MENUITEM "Lower Case: this is an example", ID_MENU_LOWERCASE
         MENUITEM "Spaces for tabs",             ID_MENU_SPACETAB
+        MENUITEM "Tabs for spaces (3)",         ID_MENU_TABSPACE
         MENUITEM "Dot per comma: 12.5",         ID_MENU_DOTPERCOMMA
         MENUITEM "Comma per dot: 12,5",         ID_MENU_COMMAPERDOT
         MENUITEM "Remove dots, comma per dot: 7.584,93 -> 7584.93", ID_MENU_REMOVEDOTSCOMMAPERDOT

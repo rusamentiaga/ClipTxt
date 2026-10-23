@@ -9,6 +9,8 @@
 #include "PaperTittleCamelCase.h"
 #include "ParagraphCase.h"
 #include "ChangeCase.h"
+#include "SpaceTab.h"
+#include "DecimalSeparator.h"
 
 class MainWindow : public AC::Window
 {
@@ -312,6 +314,7 @@ public:
 		m_AvailableStrategies[ID_MENU_TITTECAMELCASE] = new PaperTittleCamelCase;
 		m_AvailableStrategies[ID_MENU_PARAGRAPHCASE] = new ParagraphCase;
 		m_AvailableStrategies[ID_MENU_SPACETAB] = new ChangeSpaceTab;
+		m_AvailableStrategies[ID_MENU_TABSPACE] = new ChangeTabSpace;
 		m_AvailableStrategies[ID_MENU_DOTPERCOMMA] = new CommaPerDotTrim;
 		m_AvailableStrategies[ID_MENU_COMMAPERDOT] = new DotPerComma;
 		m_AvailableStrategies[ID_MENU_REMOVEDOTSCOMMAPERDOT] = new RemoveDotsCommaPerDot;
