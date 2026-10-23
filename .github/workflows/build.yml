@@ -14,9 +14,9 @@ jobs:
       matrix:
         platform: [x64, Win32]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: microsoft/setup-msbuild@v2
+      - uses: microsoft/setup-msbuild@v3
 
       # The project targets toolset v145 (VS 2026); fall back to v143 when the
       # runner image only has VS 2022.
@@ -40,7 +40,7 @@ jobs:
           New-Item -ItemType Directory -Force dist | Out-Null
           Copy-Item $exe dist/ClipTxt-${{ matrix.platform }}.exe
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ClipTxt-${{ matrix.platform }}
           path: dist/ClipTxt-${{ matrix.platform }}.exe
@@ -53,12 +53,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
 
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: dist/*.exe
           generate_release_notes: true

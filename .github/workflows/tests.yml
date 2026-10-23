@@ -12,7 +12,7 @@ jobs:
       matrix:
         platform: [x64, Win32]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Builds only the test project and runs it; exits with 1 if a check fails.
       - name: Test
